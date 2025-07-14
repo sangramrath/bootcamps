@@ -83,7 +83,7 @@ kubeadm upgrade apply v1.30.1
 ## Certificates
 
 ### `kubeadm certs check-expiration`
-Renews all control-plane certificates.
+Check certificate expiration.
 ```bash
 kubeadm certs check-expiration
 ```
