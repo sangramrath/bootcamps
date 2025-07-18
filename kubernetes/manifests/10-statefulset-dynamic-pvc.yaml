@@ -22,7 +22,7 @@ spec:
               containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
-              Value: strongpassword
+              value: strongpassword
           volumeMounts:
             - name: mysqldb-pvc
               mountPath: /var/lib/mysql

@@ -26,3 +26,17 @@ spec:
       - name: log
         persistentVolumeClaim:
           claimName: log
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: log
+  labels:
+    app: kcnaprep-d
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: manual
