@@ -90,6 +90,12 @@ Apply sysctl params without reboot
 sudo sysctl --system
 ```
 
+### 1.5 Disable firewall (NOT FOR PRODUCTION)
+
+```bash
+sudo ufw disable
+```
+
 ## Step 2: Install containerd
 
 ### 2.1 Install required dependencies

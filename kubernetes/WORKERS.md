@@ -23,5 +23,10 @@ This steps in this guide do the following:
 
 NOTE: Use the kubeadm join command printed on your terminal. The below is just an example.
 ```bash
-kubeadm join 192.168.0.18:6443 --token 3116rg.xxxxxxxxxx
+sudo kubeadm join 192.168.0.18:6443 --token 3116rg.xxxxxxxxxx
+```
+
+Label the worker node
+```bash
+kubectl label node <nodename> node-role.kubernetes.io/worker=worker
 ```

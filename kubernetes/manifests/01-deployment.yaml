@@ -1,0 +1,21 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: kcnaprep-d
+spec: 
+  replicas: 1 
+  strategy: 
+    type: RollingUpdate 
+  selector: 
+    matchLabels: 
+      app: kcnaprep-d
+  template: 
+    metadata: 
+      labels: 
+        app: kcnaprep-d
+    spec: 
+      containers: 
+      - name: kcnaprep 
+        image: sangramrath/kcnaprep:1.0
+        ports: 
+        - containerPort: 3000

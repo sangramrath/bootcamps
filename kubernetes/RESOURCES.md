@@ -41,20 +41,20 @@ Run `kube-bench` on all nodes of the cluster.
 
 To create a static pod using a YAML file, use the `kubectl apply` command:
 ```bash
-kubectl apply -f pod.yaml
+kubectl apply -f 00-pod.yaml
 ```
 
 ## Deployments
 
 To create a deployment _Deployment_ using the provided YAML file run:
 ```bash
-kubectl apply -f deployment.yaml
+kubectl apply -f 01-deployment.yaml
 ```
 
 To scale a _Deployment_ through the YAML, edit the YAML file and replace `replicas` value with the desired number.
 Then use `kubectl apply` command to apply the changes to the deployment.
 ```bash
-kubectl apply -f deployment.yaml
+kubectl apply -f 01-deployment.yaml
 ```
 
 You can also scale a _Deployment_ using the `kubectl` command.
@@ -71,4 +71,52 @@ kubectl get deployment kcnaprep
 kubectl get pods -l app=kcnaprep
 ```
 
-##
+## Services
+
+NOTE: Labels are a must for exposing _Pods_ or _Services_.
+
+First, delete the Pod. Next, either edit the `pod.yaml` to add _labels_ (follow the instructor) or run the following file that includes the changes:
+```bash
+kubectl apply -f 02-pod-labels.yaml
+```
+
+To expose the Pod created using a service run:
+```bash
+kubectl apply -f 03-service-ClusterIP-pod.yaml
+```
+
+(Optional) You can also expose a Pod/Deployment using the kubectl command:
+```bash
+kubectl expose pod kcnaprep --target-port=3000 --port=80 --name=kcnaprep
+```
+
+Verify
+```bash
+kubectl get svc
+
+kubectl get endpoints
+```
+
+Now, let's expose the deployment created earlier.
+```bash
+kubectl apply -f 04-service-NodePort-deployment.yaml
+```
+
+## Ingress
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.13.0/deploy/static/provider/cloud/deploy.yaml
+```
+
+Watch until the pods are ready:
+```bash
+watch 'kubectl get pods --namespace=ingress-nginx'
+```
+
+## PV and PVC
+
+Install Rancher local path provisioner.
+```bash
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.31/deploy/local-path-storage.yaml
+```
+
