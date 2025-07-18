@@ -71,6 +71,22 @@ kubectl get deployment kcnaprep
 kubectl get pods -l app=kcnaprep
 ```
 
+Working with deployment rollouts
+```bash
+kubectl rollout history deployment/kcnaprep-d
+
+kubectl rollout undo deployment/kcnaprep-d
+
+kubectl rollout undo deployment/kcnaprep-d --to-revision=2
+```
+
+To record rollouts
+```bash
+kubectl apply -f 01-deployment.yaml --record=true
+```
+
+
+
 ## Services
 
 NOTE: Labels are a must for exposing _Pods_ or _Services_.
@@ -97,9 +113,9 @@ kubectl get svc
 kubectl get endpoints
 ```
 
-Now, let's expose the deployment created earlier.
+Now, let's expose the deployment created earlier using a NodePort.
 ```bash
-kubectl apply -f 04-service-NodePort-deployment.yaml
+kubectl apply -f 05-service-NodePort-deployment.yaml
 ```
 
 ## Ingress
@@ -115,8 +131,25 @@ watch 'kubectl get pods --namespace=ingress-nginx'
 
 ## PV and PVC
 
+### Static
+```bash
+kubectl apply -f 07-pv-static.yaml
+```
+
+```bash
+kubectl apply -f 08-deployment-with-pvc.yaml
+```
+
+### Dynamic
 Install Rancher local path provisioner.
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.31/deploy/local-path-storage.yaml
 ```
 
+```bash
+kubectl apply -f 09-storageclass.yaml
+```
+
+```bash
+kubectl apply -f 10-statefulset-dynamic-pvc.yaml
+```

@@ -1,0 +1,28 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: kcnaprep-d
+spec: 
+  replicas: 2
+  strategy: 
+    type: RollingUpdate 
+  selector: 
+    matchLabels: 
+      app: kcnaprep-d 
+  template: 
+    metadata: 
+      labels: 
+        app: kcnaprep-d
+    spec: 
+      containers: 
+      - name: kcnaprep 
+        image: sangramrath/kcnaprep:1.0
+        volumeMounts:
+          - name: log
+            mountPath: /var/log
+        ports: 
+        - containerPort: 3000
+      volumes:
+      - name: log
+        persistentVolumeClaim:
+          claimName: log
