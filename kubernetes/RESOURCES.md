@@ -212,11 +212,62 @@ kubectl apply -f 15-deployment-with-secret.yaml
 ## CronJob
 
 ```bash
-kubectl apply -f 16-cronjob.yaml
+kubectl apply -f 16-job.yaml
 ```
+
+```bash
+kubectl apply -f 17-cronjob.yaml
+```
+
+Notice that the cronjob runs in worker node.
+
 
 ## Taints and Tolerations
 
+Objective: run the cronjob in master node.
+
+Start by tainting the master node for backup. We do not want all workloads to run on master only the ones that tolerate this taint.
 ```bash
 kubectl taint nodes <master-node-name> node-role.kubernetes.io/masterbackup=true:NoSchedule
 ```
+
+Apply the modified cronjob.yaml with tolerations.
+```bash
+kubectl apply -f 18-taints-tolerations.yaml
+```
+
+Notice that the cronjob pod is still getting created in worker node.
+Apply NodeSelect to specify the node.
+```bash
+kubectl apply -f 19-nodeselector.yaml
+```
+
+The pods are now in _pending_ status. This is because there is a NoSchedule taint in Master. Add a toleration for it as well.
+```bash
+kubectl apply -f 20-taints-tolerations-master.yaml
+```
+
+## Readiness, Liveliness, and Startup probes
+
+```bash
+kubectl apply -f 21-readiness-liveness-startup.yaml
+```
+
+
+## Resource Requests and Limits
+
+Apply the YAML
+```bash
+kubectl apply -f 22-resource-requests-limits.yaml
+```
+
+Run the following pod to generate load
+```bash
+kubectl run stress-curl \
+  --image=curlimages/curl \
+  --restart=Never \
+  --command -- /bin/sh -c \
+  "while true; do curl http://<NODE_IP>:30001; done"
+```
+
+

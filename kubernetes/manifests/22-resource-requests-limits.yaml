@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: kcnaprep-d-rl
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: kcnaprep-d-rl
+  template:
+    metadata:
+      labels:
+        app: kcnaprep-d-rl
+    spec:
+      containers:
+      - name: kcnaprep
+        image: sangramrath/kcnaprep:1.0
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "16Mi"
+          limits:
+            cpu: "100m"
+            memory: "32Mi"

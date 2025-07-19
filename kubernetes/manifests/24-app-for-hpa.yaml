@@ -2,24 +2,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: scalable-app
+  name: autoscale-hpa
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: scalable-app
+      app: autoscale-hpa
   template:
     metadata:
       labels:
-        app: scalable-app
+        app: autoscale-hpa
     spec:
       containers:
-      - name: scalable-app
+      - name: autoscale-hpa
         image: k8s.gcr.io/hpa-example
         resources:
           requests:
-            cpu: "100m"
+            cpu: "25m" # This is a very low request to demonstrate scaling
           limits:
-            cpu: "200m"
+            cpu: "50m" # This is a very low limit to demonstrate scaling
         ports:
         - containerPort: 80
