@@ -1,0 +1,22 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: model
+spec:
+  template:
+    spec:
+      containers:
+        - name: job
+          image: alpine:latest
+          command: ["/bin/sh", "-c", "cd /model && wget https://storage.googleapis.com/bert_models/2020_02_20/uncased_L-2_H-128_A-2.zip && unzip uncased_L-2_H-128_A-2.zip"]
+          volumeMounts:
+            - name: job-volume
+              mountPath: /model
+      restartPolicy: OnFailure
+      volumes:
+        - name: job-volume
+          hostPath:
+            path: /data/model
+            type: DirectoryOrCreate
+  backoffLimit: 2

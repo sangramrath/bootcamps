@@ -140,6 +140,13 @@ kubectl apply -f 07-pv-static.yaml
 kubectl apply -f 08-deployment-with-pvc.yaml
 ```
 
+Run `kubectl get pods -o wide` and identify the node where the _Pods_ are running. Connect to one of them and looks for `/data/log` folder where files will be persisted. 
+
+To verify that persistence works, you can create some files from the node or from the Pod and cross verify. To connect to a Pod use the `kubectl exec` command below:
+```bash
+kubectl exec <podname> -it -- sh
+```
+
 ### Dynamic
 Install Rancher local path provisioner.
 ```bash
@@ -150,6 +157,66 @@ kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisione
 kubectl apply -f 09-storageclass.yaml
 ```
 
+NOTE: The following YAML also covers _StatefulSet_ creation.
 ```bash
 kubectl apply -f 10-statefulset-dynamic-pvc.yaml
+```
+
+## DaemonSet
+
+```bash
+kubectl apply -f 11-daemonset.yaml
+```
+
+## General YAML of Resources / Dry Run
+
+To generate a YAML of a deployment:
+```bash
+kubectl create deployment fromcli --image=nginx --dry-run=client -o yaml > nginx-d.yaml
+```
+
+To dry run an existing YAML:
+```bash
+kubectl apply -f 01-deployment.yaml --dry-run=client -o yaml
+```
+
+## ConfigMaps
+
+Create a _ConfigMap_ from the provided YAML file:
+```bash
+kubectl apply -f 12-configmap.yaml
+```
+
+```bash
+kubectl apply -f 13-deployment-with-cm.yaml
+```
+
+Verify pods with `kubectl get` command.
+
+```bash
+kubectl exec -it <PODNAME> -- psql -h localhost -U pguser --password -p 5432 pgdb 
+```
+
+## Secrets
+
+Move the password from _ConfigMap_ to _Secret_
+```bash
+kubectl apply -f 14-secret.yaml
+```
+
+Update the deployment
+```bash
+kubectl apply -f 15-deployment-with-secret.yaml
+```
+
+## CronJob
+
+```bash
+kubectl apply -f 16-cronjob.yaml
+```
+
+## Taints and Tolerations
+
+```bash
+kubectl taint nodes <master-node-name> node-role.kubernetes.io/masterbackup=true:NoSchedule
 ```

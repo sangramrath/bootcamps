@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scalable-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scalable-app
+  template:
+    metadata:
+      labels:
+        app: scalable-app
+    spec:
+      containers:
+      - name: scalable-app
+        image: k8s.gcr.io/hpa-example
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "200m"
+        ports:
+        - containerPort: 80
