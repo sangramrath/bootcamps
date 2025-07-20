@@ -1,1 +1,1 @@
-# bootcamps
+# Competency Bootcamps

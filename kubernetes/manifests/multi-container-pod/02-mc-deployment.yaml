@@ -1,0 +1,33 @@
+# NOTE this deployment is expected to fail
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: mc
+spec: 
+  replicas: 1
+  strategy: 
+    type: RollingUpdate
+  selector: 
+    matchLabels: 
+      app: mc
+  template: 
+    metadata: 
+      labels: 
+        app: mc
+    spec: 
+      containers: 
+      - name: app
+        image: sangramrath/kcnaprep:1.0
+        ports: 
+        - containerPort: 3000
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: mc-cm
