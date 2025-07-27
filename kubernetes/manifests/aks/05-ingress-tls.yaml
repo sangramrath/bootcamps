@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kcnaprep-d-mk
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - bootcamps.od10.in
+    secretName: kcnaprep-d-mk
+  rules:
+  - host: bootcamps.od10.in
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kcnaprep-d-mk
+            port:
+              number: 80 

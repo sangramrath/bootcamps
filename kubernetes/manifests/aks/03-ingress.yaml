@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kcnaprep-d-mk
+  annotations: {}
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: somedomain.com # Replace with your domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kcnaprep-d-mk # This is the service name for the application
+            port:
+              number: 80 # This is the port exposed by the service

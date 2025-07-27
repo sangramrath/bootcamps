@@ -1,0 +1,14 @@
+# Run this only when you want to expose the application via an Ingress.
+# DO NOT run this if you are using a LoadBalancer service.
+apiVersion: v1
+kind: Service
+metadata:
+  name: kcnaprep-d-mk
+spec:
+  type: ClusterIP # This service type is used for internal communication within the cluster
+  selector:
+    app: kcnaprep-d-mk
+  ports:
+  - name: http
+    port: 80 # This is the port exposed by the service
+    targetPort: 80 # This is the port on the container

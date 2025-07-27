@@ -1,0 +1,14 @@
+# Run this only when you want to expose the application via a LoadBalancer service.
+# DO NOT run this if you are using Ingress.
+apiVersion: v1
+kind: Service
+metadata:
+  name: kcnaprep-d-mk
+spec:
+  selector:
+    app: kcnaprep-d-mk
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
